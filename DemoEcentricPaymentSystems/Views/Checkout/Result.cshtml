@@ -1,0 +1,65 @@
+﻿@model PaymentResult
+
+@{
+    ViewData["Title"] = "Payment Receipt";
+    var isSuccess = Model.ResultDescription?.ToUpper() == "SUCCESS";
+    var statusClass = isSuccess ? "text-success" : "text-danger";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-3">
+        <div class="card-header bg-dark text-white text-center">
+            <h2>Payment Receipt</h2>
+        </div>
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <h4 class="@statusClass">
+                    @if (isSuccess)
+                    {
+                        <i class="bi bi-check-circle-fill"></i>
+						<span>Payment Successful</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-x-circle-fill"></i>
+						<span>Payment Failed</span>
+                    }
+                </h4>
+                <p class="text-muted">Thank you for using our service.</p>
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Result Code</th>
+                        <td>@Model.ResultCode</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Result Description</th>
+                        <td>@Model.ResultDescription</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Transaction ID</th>
+                        <td>@(Model.TransactionUuid ?? "N/A")</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Invoice Number</th>
+                        <td>@Model.InvoiceNumber</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Amount</th>
+                        <td>@Model.Amount.ToString("C")</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-center mt-4">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Return Home</a>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-center">
+            &copy; @DateTime.Now.Year Payment System
+        </div>
+    </div>
+</div>
+
